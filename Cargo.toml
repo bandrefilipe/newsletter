@@ -5,4 +5,17 @@ edition = "2021"
 authors = ["André Filipe Barranco <b.andrefilipe@gmail.com>"]
 license = "MIT"
 
+[lib]
+name = "newsletter"
+path = "src/lib.rs"
+
+[[bin]]
+name = "newsletter"
+path = "src/main.rs"
+
 [dependencies]
+actix-web = "4.0.1"
+tokio = { version = "1.17.0", features = ["macros", "rt-multi-thread"] }
+
+[dev-dependencies]
+reqwest = "0.11.10"
