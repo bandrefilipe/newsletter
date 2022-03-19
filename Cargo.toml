@@ -6,3 +6,5 @@ authors = ["André Filipe Barranco <b.andrefilipe@gmail.com>"]
 license = "MIT"
 
 [dependencies]
+actix-web = "4.0.1"
+tokio = { version = "1.17.0", features = ["macros", "rt-multi-thread"] }
