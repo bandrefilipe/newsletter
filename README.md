@@ -1,4 +1,4 @@
-# zero2prod
+# Newsletter
 
 ## Environment Setup
 The necessary steps needed to build/run this code locally.
