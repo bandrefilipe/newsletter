@@ -3,6 +3,7 @@
 ## Dependencies
 - [Actix Web](https://actix.rs/ "actix.rs"): A powerful, pragmatic, and extremely fast web framework for Rust.
 - [Tokio](https://tokio.rs/ "tokio.rs"): A runtime for writing reliable network applications without compromising speed.
+- [Serde](https://serde.rs/ "serde.rs"): A generic serialization/deserialization framework.
 
 ## Environment Setup
 The necessary steps needed to build/run this code locally.
