@@ -20,3 +20,8 @@ Install `lld` (Windows and Linux) or `zld` (macOS) to reduce compilation time.
 | Linux (Debian) | `sudo apt-get install lld clang`                                             |
 | Linux (Arch)   | `sudo pacman -S lld clang`                                                   |
 | macOS          | `brew install michaeleisel/zld/zld`                                          |
+
+### Docker
+Install `docker` following the [official guide](https://docs.docker.com/engine/install/ "docs.docker.com").
+
+It is used to run this app's database – which can be done executing the `./scripts/init_db.sh` script.
