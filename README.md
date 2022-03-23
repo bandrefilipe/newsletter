@@ -11,15 +11,24 @@ The necessary steps needed to build/run this code locally.
 ### Rust Toolchain
 Install `rustup` following the [official guide](https://www.rust-lang.org/tools/install "rust-lang.org").
 
-### Faster Linking 
+### Faster Linking
 Install `lld` (Windows and Linux) or `zld` (macOS) to reduce compilation time.
 
 | OS             | Command                                                                      |
 |----------------|------------------------------------------------------------------------------|
-| Windows        | `cargo install -f cargo-binutils && rustup component add llvm-tools-preview` |
-| Linux (Debian) | `sudo apt-get install lld clang`                                             |
 | Linux (Arch)   | `sudo pacman -S lld clang`                                                   |
+| Linux (Debian) | `sudo apt-get install lld clang`                                             |
 | macOS          | `brew install michaeleisel/zld/zld`                                          |
+| Windows        | `cargo install -f cargo-binutils && rustup component add llvm-tools-preview` |
+
+### OpenSSL
+Install OpenSSL, required for building the `openssl-sys` crate.
+
+| OS             | Command                                       |
+|----------------|-----------------------------------------------|
+| Linux (Arch)   | `sudo pacman -S pkg-config openssl`           |
+| Linux (Debian) | `sudo apt-get install pkg-config openssl-dev` |
+| macOS          | `brew install openssl@1.1`                    |
 
 ### Docker
 Install `docker` following the [official guide](https://docs.docker.com/engine/install/ "docs.docker.com").
