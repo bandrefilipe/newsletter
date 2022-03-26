@@ -1,3 +1,4 @@
+use newsletter::startup;
 use reqwest::StatusCode;
 use std::net::TcpListener;
 
@@ -9,7 +10,7 @@ fn spawn_app() -> String {
     let listener =
         TcpListener::bind(format!("{LOCALHOST}:0")).expect("Failed to bind a random port.");
     let port = listener.local_addr().unwrap().port();
-    let server = newsletter::run_server(listener).expect("Failed launch the server.");
+    let server = startup::run_server(listener).expect("Failed launch the server.");
     // runs the server as a background task, allowing our tests to run concurrently
     tokio::spawn(server);
 
