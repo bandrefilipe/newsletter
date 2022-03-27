@@ -1,5 +1,4 @@
-use newsletter::startup;
-use std::net::TcpListener;
+use newsletter::{config, startup};
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
@@ -7,7 +6,10 @@ async fn main() -> std::io::Result<()> {
     // procedural macro:
     // 1. `rustup toolchain install nightly --allow-downgrade` (if not yet installed)
     // 2. `cargo +nightly expand --bin newsletter`
-    let listener = TcpListener::bind("127.0.0.1:8000").expect("Failed to bind port 8000");
+    let listener = config::parse()
+        .expect("Failed to parse the application config")
+        .server
+        .listener()?;
 
     startup::run_server(listener)?.await
 }

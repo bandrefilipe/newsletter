@@ -4,6 +4,7 @@
 - [Actix Web](https://actix.rs/ "actix.rs"): A powerful, pragmatic, and extremely fast web framework for Rust.
 - [Tokio](https://tokio.rs/ "tokio.rs"): A runtime for writing reliable network applications without compromising speed.
 - [Serde](https://serde.rs/ "serde.rs"): A generic serialization/deserialization framework.
+- [config-rs](https://github.com/mehcode/config-rs "github.com"): Layered configuration system for Rust applications (with strong support for 12-factor applications).
 
 ## Environment Setup
 The necessary steps needed to build/run this code locally.
