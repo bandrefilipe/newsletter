@@ -12,10 +12,19 @@ pub fn parse() -> Result<ApplicationConfig, ConfigError> {
         .add_source(Environment::with_prefix("APP"))
         .build()?
         .try_deserialize()
+        .map(print_debug) // using `map` here to print state (if debug enabled) while `inspect` is unstable
+}
+
+fn print_debug(cfg: ApplicationConfig) -> ApplicationConfig {
+    if cfg.debug {
+        println!("{:?}", cfg);
+    }
+    cfg
 }
 
 #[derive(Debug, Deserialize)]
 pub struct ApplicationConfig {
+    pub debug: bool,
     pub server: ServerConfig,
     pub database: DatabaseConfig,
 }

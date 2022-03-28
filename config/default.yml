@@ -1,3 +1,4 @@
+debug: false
 database:
   user: postgres
   password: password
