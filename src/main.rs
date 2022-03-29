@@ -1,4 +1,4 @@
-use newsletter::{config, startup};
+use newsletter::{configuration, startup};
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
@@ -6,7 +6,7 @@ async fn main() -> std::io::Result<()> {
     // procedural macro:
     // 1. `rustup toolchain install nightly --allow-downgrade` (if not yet installed)
     // 2. `cargo +nightly expand --bin newsletter`
-    let listener = config::parse()
+    let listener = configuration::parse()
         .expect("Failed to parse the application config")
         .server
         .listener()?;

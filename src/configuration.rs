@@ -1,4 +1,4 @@
-use config::{ConfigError, Environment};
+use config::{ConfigError, Environment, File};
 use serde::Deserialize;
 use std::net::{TcpListener, ToSocketAddrs};
 use std::{env, io};
@@ -7,8 +7,8 @@ pub fn parse() -> Result<ApplicationConfig, ConfigError> {
     let environment = env::var("ENV").unwrap_or_else(|_| "local".into());
 
     config::Config::builder()
-        .add_source(config::File::with_name("config/default"))
-        .add_source(config::File::with_name(&format!("config/{environment}")).required(false))
+        .add_source(File::with_name("configuration/default"))
+        .add_source(File::with_name(&format!("configuration/{environment}")).required(false))
         .add_source(Environment::with_prefix("APP"))
         .build()?
         .try_deserialize()
