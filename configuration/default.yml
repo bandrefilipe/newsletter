@@ -1,5 +1,6 @@
 debug: false
 database:
+  migrate: false
   user: postgres
   password: password
   host: localhost

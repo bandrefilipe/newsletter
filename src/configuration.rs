@@ -46,6 +46,7 @@ impl ServerConfig {
 
 #[derive(Debug, Deserialize)]
 pub struct DatabaseConfig {
+    pub migrate: bool,
     pub user: String,
     pub password: String,
     pub host: String,
