@@ -1,0 +1,10 @@
+debug: false
+database:
+  migrate: false
+  user: postgres
+  password: password
+  host: localhost
+  port: 5432
+  dbname: newsletter
+server:
+  port: 8000
