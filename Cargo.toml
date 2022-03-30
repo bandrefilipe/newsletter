@@ -21,5 +21,17 @@ config = "0.12.0"
 uuid = { version = "0.8.2", features = ["v4"] }
 chrono = "0.4.19"
 
+[dependencies.sqlx]
+version = "0.5.11"
+default-features = false
+features = [
+    "runtime-actix-rustls", # Use the `actix` runtime and `rustls` TLS backend
+    "macros", # Add support for the `query*!` macros, which allow compile-time checked queries
+    "postgres", # Add support for the Postgres database server
+    "uuid", # Add support for UUID (in Postgres)
+    "chrono", # Add support for date and time types from `chrono`
+    "migrate" # Add support for the migration management and `migrate!` macro, which allow compile-time embedded migrations
+]
+
 [dev-dependencies]
 reqwest = "0.11.10"

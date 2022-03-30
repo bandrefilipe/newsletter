@@ -61,4 +61,13 @@ impl DatabaseConfig {
             self.user, self.password, self.host, self.port, self.dbname
         )
     }
+
+    /// Intended for tests, so we can connect to no specific logical database.
+    /// (useful for test isolation, since we can create a new database for each test)
+    pub fn connection_string_without_db(&self) -> String {
+        format!(
+            "postgres://{}:{}@{}:{}",
+            self.user, self.password, self.host, self.port
+        )
+    }
 }
