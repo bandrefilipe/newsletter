@@ -5,6 +5,5 @@ create table if not exists subscriptions(
     email text not null unique,
     name text not null,
     subscribed_at timestamptz not null,
-
     primary key (id)
 );
