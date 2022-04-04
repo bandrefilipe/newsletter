@@ -1,3 +1,4 @@
+use env_logger::Env;
 use newsletter::{configuration, startup};
 use sqlx::PgPool;
 
@@ -7,6 +8,8 @@ use sqlx::PgPool;
 // 2. `cargo +nightly expand --bin newsletter`
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
+    env_logger::Builder::from_env(Env::default().default_filter_or("info ")).init();
+
     let config = configuration::parse().expect("Failed to parse the application config");
 
     let listener = config
@@ -19,7 +22,7 @@ async fn main() -> std::io::Result<()> {
         .expect("Failed to connect to the database");
 
     if config.database.migrate {
-        println!("Running database migrations");
+        log::info!("Running database migrations");
         sqlx::migrate!("./migrations")
             .run(&pool)
             .await
