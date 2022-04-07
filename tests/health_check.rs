@@ -1,9 +1,11 @@
-use newsletter::configuration::DatabaseConfig;
-use newsletter::{configuration, startup};
+use std::net::TcpListener;
+
 use reqwest::StatusCode;
 use sqlx::{Connection, Executor, PgConnection, PgPool};
-use std::net::TcpListener;
 use uuid::Uuid;
+
+use newsletter::configuration::DatabaseConfig;
+use newsletter::{configuration, startup};
 
 const LOCALHOST: &str = "127.0.0.1";
 

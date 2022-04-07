@@ -1,8 +1,10 @@
-use crate::routes::{health_check, subscribe};
+use std::net::TcpListener;
+
 use actix_web::dev::Server;
 use actix_web::{middleware, web, App, HttpServer};
 use sqlx::PgPool;
-use std::net::TcpListener;
+
+use crate::routes::{health_check, subscribe};
 
 pub fn run_server(listener: TcpListener, pool: PgPool) -> Result<Server, std::io::Error> {
     // wrap the connection pool in an ARC smart pointer

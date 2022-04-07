@@ -1,7 +1,8 @@
-use config::{ConfigError, Environment, File};
-use serde::Deserialize;
 use std::net::{TcpListener, ToSocketAddrs};
 use std::{env, io};
+
+use config::{ConfigError, Environment, File};
+use serde::Deserialize;
 
 pub fn parse() -> Result<ApplicationConfig, ConfigError> {
     let environment = env::var("ENV").unwrap_or_else(|_| "local".into());
