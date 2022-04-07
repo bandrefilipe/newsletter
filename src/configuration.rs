@@ -17,7 +17,7 @@ pub fn parse() -> Result<ApplicationConfig, ConfigError> {
 
 fn print_debug(cfg: ApplicationConfig) -> ApplicationConfig {
     if cfg.debug {
-        log::info!("Configuration debug is enabled! {:?}", cfg);
+        tracing::info!("Configuration debug is enabled! {:?}", cfg);
     }
     cfg
 }

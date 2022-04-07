@@ -7,8 +7,10 @@
 - [config-rs](https://docs.rs/crate/config "docs.rs"): Layered configuration system for Rust applications (with strong support for 12-factor applications).
 - [uuid](https://docs.rs/crate/uuid/ "docs.rs"): Generate and parse universally unique identifiers (UUIDs).
 - [chrono](https://docs.rs/crate/chrono "docs.rs"): Date and time library for Rust.
-- [log](https://docs.rs/crate/log "docs.rs"): A lightweight logging facade.
-- [env_logger](https://docs.rs/crate/env_logger "docs.rs"): A logging implementation for `log` which is configured via an environment variable.
+- [tracing](https://docs.rs/crate/tracing "docs.rs"): Application-level tracing for Rust.
+- [tracing-subscriber](https://docs.rs/crate/tracing-subscriber "docs.rs"): Utilities for implementing and composing `tracing` subscribers.
+- [tracing-bunyan-formatter](https://docs.rs/crate/tracing-bunyan-formatter "docs.rs"): A Bunyan formatter for the `tracing` crate.
+- [tracing-log](https://docs.rs/crate/tracing-log "docs.rs"): Provides compatibility between `tracing` and the `log` crate.
 - [sqlx](https://docs.rs/crate/sqlx "docs.rs"): An async, pure Rust SQL crate featuring compile-time checked queries without a DSL.
 
 ## Environment Setup
