@@ -1,13 +1,23 @@
 use std::net::TcpListener;
 
+use once_cell::sync::Lazy;
 use reqwest::StatusCode;
 use sqlx::{Connection, Executor, PgConnection, PgPool};
 use uuid::Uuid;
 
 use newsletter::configuration::DatabaseConfig;
-use newsletter::{configuration, startup};
+use newsletter::{configuration, startup, telemetry};
 
 const LOCALHOST: &str = "127.0.0.1";
+
+/// Ensures that the `tracing` stack is initialized only once using `once_cell`.
+static TRACING: Lazy<()> = Lazy::new(|| {
+    let subscriber_name = String::from("test");
+    let directives = "none";
+    let make_writer = std::io::stdout;
+    let subscriber = telemetry::get_subscriber(subscriber_name, directives, make_writer);
+    telemetry::init_subscriber(subscriber);
+});
 
 struct TestApp {
     address: String,
@@ -17,6 +27,10 @@ struct TestApp {
 /// Spins up an instance of our application
 /// and returns a [TestApp] instance.
 async fn spawn_app() -> TestApp {
+    // The first time `spawn_app` is invoked, the code in `TRACING` is executed.
+    // All other invocations will instead skip execution.
+    Lazy::force(&TRACING);
+
     let listener =
         TcpListener::bind(format!("{LOCALHOST}:0")).expect("Failed to bind a random port.");
     let port = listener.local_addr().unwrap().port();

@@ -8,8 +8,14 @@ use newsletter::{configuration, startup, telemetry};
 // 2. `cargo +nightly expand --bin newsletter`
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
-    let subscriber = telemetry::get_subscriber("newsletter".into(), "info");
-    telemetry::init_subscriber(subscriber);
+    // Sets telemetry up
+    {
+        let name = String::from("newsletter");
+        let directives = "info";
+        let make_writer = std::io::stdout;
+        let subscriber = telemetry::get_subscriber(name, directives, make_writer);
+        telemetry::init_subscriber(subscriber);
+    }
 
     let config = configuration::parse().expect("Failed to parse the application config");
 

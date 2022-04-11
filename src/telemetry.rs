@@ -1,6 +1,7 @@
 use tracing::Subscriber;
 use tracing_bunyan_formatter::{BunyanFormattingLayer, JsonStorageLayer};
 use tracing_log::LogTracer;
+use tracing_subscriber::fmt::MakeWriter;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::{EnvFilter, Registry};
 
@@ -14,13 +15,26 @@ use tracing_subscriber::{EnvFilter, Registry};
 /// We need to explicitly call out that the returned subscriber is
 /// `Send` and `Sync` to make it possible to pass it to [init_subscriber]
 /// later on.
-pub fn get_subscriber<S: AsRef<str>>(name: String, directives: S) -> impl Subscriber + Send + Sync {
+pub fn get_subscriber<S, W>(
+    name: String,
+    directives: S,
+    make_writer: W,
+) -> impl Subscriber + Send + Sync
+where
+    S: AsRef<str>,
+    // This weird syntax is a higher-ranked trait bound (HRTB)
+    // It basically means that W implements the `MakeWriter`
+    // trait for all choices of the lifetime parameter `'a`
+    // Check out https://doc.rust-lang.org/nomicon/hrtb.html
+    // for more details
+    W: for<'a> MakeWriter<'a> + Send + Sync + 'static,
+{
     // Layer that filters spans and events based on a set of filter directives
     let env_filter = EnvFilter::try_from_default_env() //
         .unwrap_or_else(|_| EnvFilter::new(directives));
     // Layer that formats information using the Bunyan format
     // It relies on the JsonStorageLayer to get access to the fields attached to each span
-    let formatting_layer = BunyanFormattingLayer::new(name, std::io::stdout);
+    let formatting_layer = BunyanFormattingLayer::new(name, make_writer);
 
     Registry::default()
         .with(env_filter)
