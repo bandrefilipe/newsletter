@@ -1,24 +1,31 @@
 use actix_web::{web, HttpResponse, Responder};
 use chrono::Utc;
 use sqlx::PgPool;
-use tracing::Instrument;
 use uuid::Uuid;
 
+#[allow(clippy::async_yields_async)]
+#[tracing::instrument(
+    name = "Posting new subscription",
+    skip(form, pool),
+    fields(
+        request_id = %Uuid::new_v4(),
+        subscriber_email = %form.email,
+        subscriber_name = %form.name,
+    )
+)]
 pub async fn subscribe(
     form: web::Form<SubscriptionForm>,
     pool: web::Data<PgPool>,
 ) -> impl Responder {
-    let request_id = Uuid::new_v4();
-    let request_span = tracing::info_span!(
-        "Adding a new subscriber",
-        %request_id,
-        subscriber_email = %form.email,
-        subscriber_name = %form.name,
-    );
-    let _ = request_span.enter();
+    match insert_subscription(&form, &pool).await {
+        Ok(_) => HttpResponse::Ok(),
+        Err(_) => HttpResponse::InternalServerError(),
+    }
+}
 
-    let query_span = tracing::info_span!("Saving new subscriber details in the database");
-    match sqlx::query!(
+#[tracing::instrument(name = "Inserting new subscription in the database", skip(form, pool))]
+async fn insert_subscription(form: &SubscriptionForm, pool: &PgPool) -> Result<(), sqlx::Error> {
+    sqlx::query!(
         r#"
         INSERT INTO subscriptions (id, email, name, subscribed_at)
         VALUES ($1, $2, $3, $4)
@@ -28,19 +35,13 @@ pub async fn subscribe(
         form.name,
         Utc::now(),
     )
-    .execute(pool.get_ref())
-    .instrument(query_span)
+    .execute(pool)
     .await
-    {
-        Ok(_) => {
-            tracing::info!("request_id {request_id} - New subscriber details have been saved");
-            HttpResponse::Ok()
-        }
-        Err(e) => {
-            tracing::error!("request_id {request_id} - Failed to insert a new subscription: {e}");
-            HttpResponse::InternalServerError()
-        }
-    }
+    .map_err(|err| {
+        tracing::error!("Failed to insert new subscription: {:?}", err);
+        err
+    })?;
+    Ok(())
 }
 
 #[derive(serde::Deserialize)]
