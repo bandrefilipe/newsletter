@@ -12,6 +12,7 @@
 - [tracing-bunyan-formatter](https://docs.rs/crate/tracing-bunyan-formatter "docs.rs"): A Bunyan formatter for the `tracing` crate.
 - [tracing-log](https://docs.rs/crate/tracing-log "docs.rs"): Provides compatibility between `tracing` and the `log` crate.
 - [sqlx](https://docs.rs/crate/sqlx "docs.rs"): An async, pure Rust SQL crate featuring compile-time checked queries without a DSL.
+- [secrecy](https://docs.rs/crate/secrecy "docs.rs"): A simple secret-keeping library for Rust.
 
 ## Environment Setup
 The necessary steps needed to build/run this code locally.

@@ -1,3 +1,4 @@
+use secrecy::ExposeSecret;
 use sqlx::PgPool;
 
 use newsletter::{configuration, startup, telemetry};
@@ -24,7 +25,7 @@ async fn main() -> std::io::Result<()> {
         .listener()
         .expect("Failed to produce the application listener");
 
-    let pool = PgPool::connect(&config.database.connection_string())
+    let pool = PgPool::connect(config.database.connection_string().expose_secret())
         .await
         .expect("Failed to connect to the database");
 

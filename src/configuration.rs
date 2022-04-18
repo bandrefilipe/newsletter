@@ -2,6 +2,7 @@ use std::net::{TcpListener, ToSocketAddrs};
 use std::{env, io};
 
 use config::{ConfigError, Environment, File};
+use secrecy::{ExposeSecret, Secret};
 use serde::Deserialize;
 
 pub fn parse() -> Result<ApplicationConfig, ConfigError> {
@@ -49,26 +50,28 @@ impl ServerConfig {
 pub struct DatabaseConfig {
     pub migrate: bool,
     pub user: String,
-    pub password: String,
+    pub password: Secret<String>,
     pub host: String,
     pub port: u16,
     pub dbname: String,
 }
 
 impl DatabaseConfig {
-    pub fn connection_string(&self) -> String {
-        format!(
+    pub fn connection_string(&self) -> Secret<String> {
+        let password = self.password.expose_secret();
+        Secret::new(format!(
             "postgres://{}:{}@{}:{}/{}",
-            self.user, self.password, self.host, self.port, self.dbname
-        )
+            self.user, password, self.host, self.port, self.dbname
+        ))
     }
 
     /// Intended for tests, so we can connect to no specific logical database.
     /// (useful for test isolation, since we can create a new database for each test)
-    pub fn connection_string_without_db(&self) -> String {
-        format!(
+    pub fn connection_string_without_db(&self) -> Secret<String> {
+        let password = self.password.expose_secret();
+        Secret::new(format!(
             "postgres://{}:{}@{}:{}",
-            self.user, self.password, self.host, self.port
-        )
+            self.user, password, self.host, self.port
+        ))
     }
 }
